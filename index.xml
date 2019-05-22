@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JUSSI HAAPANEN</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on JUSSI HAAPANEN</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 05 Feb 2017 00:00:00 +0300</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dynamic queries using NHibernate with the help of C# expression trees</title>
+      <link>http://localhost:1313/posts/dynamic-queries-using-nhibernate/</link>
+      <pubDate>Sun, 05 Feb 2017 00:00:00 +0300</pubDate>
+      
+      <guid>http://localhost:1313/posts/dynamic-queries-using-nhibernate/</guid>
+      <description>I had to recently figure out a way to query database objects based on user input without knowing beforehand which classes user wants to query. Basically user would input a type and the system would find it’s child types from a database table. The children would then be fetched based on a set of rules (we do not want all items on the table, just the ones linked to the parent).</description>
+    </item>
+    
+  </channel>
+</rss>
