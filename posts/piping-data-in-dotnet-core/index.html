@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Jussi Haapanen">
+    <meta name="description" content="Jussi Haapanen&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Piping data to an application in .NET Core"/>
+<meta name="twitter:description" content="Earlier today I had a need for a PlantUML API that could generate PlantUML diagrams without having to install the necessary dependencies on my PC. To achieve this I decided to write a small API using ASP.NET Core.
+I was thinking of just calling the PlantUML binary with the input data from a HTTP POST body. There could be some security implications but I was the only user of the system so it didn&rsquo;t really matter."/>
+
+    <meta property="og:title" content="Piping data to an application in .NET Core" />
+<meta property="og:description" content="Earlier today I had a need for a PlantUML API that could generate PlantUML diagrams without having to install the necessary dependencies on my PC. To achieve this I decided to write a small API using ASP.NET Core.
+I was thinking of just calling the PlantUML binary with the input data from a HTTP POST body. There could be some security implications but I was the only user of the system so it didn&rsquo;t really matter." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jussihaapanen.com/posts/piping-data-in-dotnet-core/" />
+<meta property="article:published_time" content="2019-06-16T18:12:04&#43;03:00"/>
+<meta property="article:modified_time" content="2019-06-16T18:12:04&#43;03:00"/>
+
+
+    
+      <base href="https://jussihaapanen.com/posts/piping-data-in-dotnet-core/">
+    
+    <title>
+  Piping data to an application in .NET Core · JUSSI HAAPANEN
+</title>
+
+    
+      <link rel="canonical" href="https://jussihaapanen.com/posts/piping-data-in-dotnet-core/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <script>
+    window.addEventListener("load", function(){
+    window.cookieconsent.initialise({
+      "palette": {
+        "popup": {
+          "background": "#000"
+        },
+        "button": {
+          "background": "#f1d600"
+        }
+      },
+      "theme": "edgeless"
+    })});
+    </script>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-41962308-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-41962308-4');
+    </script>
+
+
+    
+      
+      
+      <link rel="stylesheet" href="https://jussihaapanen.com/css/coder.min.28d751104f30c16da1aa1bb04015cbe662cacfe0d1b01af4f2240ad58580069c.css" integrity="sha256-KNdREE8wwW2hqhuwQBXL5mLKz&#43;DRsBr08iQK1YWABpw=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="https://jussihaapanen.com/css/custom.css">
+    
+
+    <link rel="icon" type="image/png" href="https://jussihaapanen.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://jussihaapanen.com/img/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.55.6" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://jussihaapanen.com">
+      JUSSI HAAPANEN
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://jussihaapanen.com/posts/">Blog</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Piping data to an application in .NET Core</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2019-06-16T18:12:04&#43;03:00'>
+                June 16, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              2 minutes read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        <p>Earlier today I had a need for a <a href="http://plantuml.com/">PlantUML</a> API that could generate PlantUML
+diagrams without having to install the necessary dependencies on my PC. To achieve this I decided
+to write a small API using ASP.NET Core.</p>
+
+<p>I was thinking of just calling the PlantUML binary with the input data from a HTTP POST body. There
+could be some security implications but I was the only user of the system so it didn&rsquo;t really matter.
+I was thinking piping the input data should be a very simple thing to do. It sure was in the end but
+there were a few things that I forgot about when dealing with streams.</p>
+
+<p>I implemented an API for it and started writing code to do the piping.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Csharp" data-lang="Csharp"><span style="color:#66d9ef">var</span> process = <span style="color:#66d9ef">new</span> Process
+{
+    StartInfo = <span style="color:#66d9ef">new</span> ProcessStartInfo
+    {
+        FileName = _appSettings.JavaExecutablePath,
+        Arguments = <span style="color:#e6db74">$&#34;-jar {_appSettings.PlantUMLPath} -pipe&#34;</span>
+        RedirectStandardInput = <span style="color:#66d9ef">true</span>,
+        RedirectStandardOutput = <span style="color:#66d9ef">true</span>,
+    }
+};
+
+
+process.Start();
+<span style="color:#66d9ef">await</span> userInputtedPlantUMLStream.CopyToAsync(process.StandardInput.BaseStream);
+<span style="color:#66d9ef">var</span> outputStream = <span style="color:#66d9ef">new</span> MemoryStream();
+<span style="color:#66d9ef">await</span> process.StandardOutput.BaseStream.CopyToAsync(outputStream);
+process.WaitForExit();
+outputStream.Seek(<span style="color:#ae81ff">0</span>, SeekOrigin.Begin);
+<span style="color:#66d9ef">return</span> outputStream;
+</code></pre></div>
+<p>I thought this should do the trick. I started the API and did a request but the application would just hang.
+After quick debugging I noticed the application was hanging at:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Csharp" data-lang="Csharp"><span style="color:#66d9ef">await</span> process.StandardOutput.BaseStream.CopyToAsync(outputStream);
+</code></pre></div>
+<p>Took me a while to figure out what was going on. I was trying to look at examples of reading standard output stream
+in .NET Core documentation and Stack Overflow. I looked at the examples and it seemed all them did the same things as
+I did. Turns out I missed one key thing. None of the examples were piping in the data&hellip; There was one crucial thing
+I forgot to do: I should close the standard input once I&rsquo;m done piping the data in. The fix was really simple after all</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Csharp" data-lang="Csharp"><span style="color:#66d9ef">var</span> process = <span style="color:#66d9ef">new</span> Process
+{
+    StartInfo = <span style="color:#66d9ef">new</span> ProcessStartInfo
+    {
+        FileName = _appSettings.JavaExecutablePath,
+        Arguments = <span style="color:#e6db74">$&#34;-jar {_appSettings.PlantUMLPath} -pipe&#34;</span>
+        RedirectStandardInput = <span style="color:#66d9ef">true</span>,
+        RedirectStandardOutput = <span style="color:#66d9ef">true</span>,
+    }
+};
+
+
+process.Start();
+<span style="color:#66d9ef">await</span> userInputtedPlantUMLStream.CopyToAsync(process.StandardInput.BaseStream);
+
+<span style="color:#75715e">// One should not forget to close the stdin.. :)
+</span><span style="color:#75715e"></span>process.StandardInput.Close();
+
+<span style="color:#66d9ef">var</span> outputStream = <span style="color:#66d9ef">new</span> MemoryStream();
+<span style="color:#66d9ef">await</span> process.StandardOutput.BaseStream.CopyToAsync(outputStream);
+process.WaitForExit();
+outputStream.Seek(<span style="color:#ae81ff">0</span>, SeekOrigin.Begin);
+<span style="color:#66d9ef">return</span> outputStream;
+</code></pre></div>
+      </div>
+
+      <footer>
+        
+
+
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    
+    
+      
+      Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+    
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

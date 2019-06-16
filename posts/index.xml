@@ -6,10 +6,20 @@
     <description>Recent content in Posts on JUSSI HAAPANEN</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 05 Feb 2017 00:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 16 Jun 2019 18:12:04 +0300</lastBuildDate>
     
 	<atom:link href="https://jussihaapanen.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Piping data to an application in .NET Core</title>
+      <link>https://jussihaapanen.com/posts/piping-data-in-dotnet-core/</link>
+      <pubDate>Sun, 16 Jun 2019 18:12:04 +0300</pubDate>
+      
+      <guid>https://jussihaapanen.com/posts/piping-data-in-dotnet-core/</guid>
+      <description>Earlier today I had a need for a PlantUML API that could generate PlantUML diagrams without having to install the necessary dependencies on my PC. To achieve this I decided to write a small API using ASP.NET Core.
+I was thinking of just calling the PlantUML binary with the input data from a HTTP POST body. There could be some security implications but I was the only user of the system so it didn&amp;rsquo;t really matter.</description>
+    </item>
     
     <item>
       <title>Dynamic queries using NHibernate with the help of C# expression trees</title>
