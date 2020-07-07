@@ -17,8 +17,8 @@
       <pubDate>Tue, 07 Jul 2020 12:35:16 +0300</pubDate>
       
       <guid>https://jussihaapanen.com/posts/dotnet-core-plugin-dependency-injection/</guid>
-      <description>Introduction You might run into a case where you would like to extend the application without updating the application core. Plugins could be one solution for the issue. It&amp;rsquo;s fairly simple to implement a plugin architecture in .NET Core. Microsoft has documented the process of adding plugin support for your application in https://docs.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support.
-It&amp;rsquo;s a good quick start to plugin architecture and gets you quite far. However, it does not explain how to add support for dependency injection from host process to the plugin process.</description>
+      <description>Introduction You might run into a case where you would like to extend the application without updating the application core. Plugins could be one solution for the issue. It&amp;rsquo;s fairly simple to implement a plugin architecture in .NET Core. Microsoft has documented the process of adding plugin support for your application in Creating an application with plugin support.
+It&amp;rsquo;s a good quick start to plugin architecture and gets you quite far.</description>
     </item>
     
     <item>
