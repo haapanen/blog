@@ -4,7 +4,8 @@
     <title>Categories on JUSSI HAAPANEN</title>
     <link>https://jussihaapanen.com/categories/</link>
     <description>Recent content in Categories on JUSSI HAAPANEN</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://jussihaapanen.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en</language>
+    <atom:link href="https://jussihaapanen.com/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

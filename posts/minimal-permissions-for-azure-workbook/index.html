@@ -11,24 +11,31 @@
 
     
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Tags">
-  <meta name="twitter:description" content="Jussi Haapanen&#39;s personal website">
+  <meta name="twitter:title" content="Minimal permissions for Azure Workbook, Log Analytics Workspace & Application Insights">
+  <meta name="twitter:description" content="The problem I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it’s trying to show. It wasn’t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
+Solution Azure Workbook Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.">
 
-    <meta property="og:url" content="https://jussihaapanen.com/tags/">
+    <meta property="og:url" content="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
   <meta property="og:site_name" content="JUSSI HAAPANEN">
-  <meta property="og:title" content="Tags">
-  <meta property="og:description" content="Jussi Haapanen&#39;s personal website">
+  <meta property="og:title" content="Minimal permissions for Azure Workbook, Log Analytics Workspace & Application Insights">
+  <meta property="og:description" content="The problem I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it’s trying to show. It wasn’t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
+Solution Azure Workbook Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.">
   <meta property="og:locale" content="en">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-29T20:00:00+03:00">
+    <meta property="article:modified_time" content="2025-11-29T20:00:00+03:00">
 
 
     
-      <base href="https://jussihaapanen.com/tags/">
+      <base href="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
     
-    <title>Tag: Tags · JUSSI HAAPANEN</title>
+    <title>
+  Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights · JUSSI HAAPANEN
+</title>
 
     
-      <link rel="canonical" href="https://jussihaapanen.com/tags/">
+      <link rel="canonical" href="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
     
 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700" rel="stylesheet">
@@ -163,7 +170,6 @@
     <link rel="icon" type="image/png" href="https://jussihaapanen.com/img/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://jussihaapanen.com/img/favicon-16x16.png" sizes="16x16">
 
-    <link rel="alternate" type="application/rss+xml" href="https://jussihaapanen.com/tags/index.xml" title="JUSSI HAAPANEN" />
     <meta name="generator" content="Hugo 0.152.2">
   </head>
 
@@ -192,20 +198,74 @@
 
       <div class="content">
         
-  <section class="container list">
-  <h1 class="title">Tag: Tags</h1>
-  <ul>
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2025-11-29T20:00:00&#43;03:00'>
+                November 29, 2025
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              2 minutes read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        <h2 id="the-problem">The problem</h2>
+<p>I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it&rsquo;s trying to show. It wasn&rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.</p>
+<h2 id="solution">Solution</h2>
+<h3 id="azure-workbook">Azure Workbook</h3>
+<p>Grant <code>Workbook Reader</code> (<code>b279062a-9be3-42a0-92ae-8b3cf002ec4d</code>) scoped to the Workbook to the user / group. This grants view access to the workbook.</p>
+<h3 id="application-insights">Application Insights</h3>
+<p>Grant <code>Monitoring Reader</code> (<code>43d0d8ad-25c7-4714-9337-8ba259a9fe05</code>) scoped to the Application Insights to the user / group. This grants reader access to Application Insights.</p>
+<h3 id="log-analytics-workspace">Log Analytics Workspace</h3>
+<p>This depends on how Log Analytics is used. Log Analytics supports both access to all logs within the workspace or access to logs scoped to the resource user has read access to.</p>
+<p>If you wish to grant access to all logs within the workspace, grant <code>Log Analytics Data Reader</code> (<code>3b03c2da-16b3-4a49-8834-0f8130efdd3b</code>). This grants access to query &amp; search all logs within the workspace.</p>
+<p>If you wish to grant access to logs from resources user has access to, you don&rsquo;t need to grant anything at the log analytics workspace level. To grant access to specific resource&rsquo;s logs, grant <code>Monitoring Reader</code> (<code>43d0d8ad-25c7-4714-9337-8ba259a9fe05</code>) access to the resource and ensure the log analytics workspace access control mode is set to <code>Use resource or workspace permissions</code>.</p>
+
+      </div>
+
+      <footer>
+        
+
+
+        <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
     
-  </ul>
-  
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "haapanen" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </footer>
+    </article>
 
-
-
-
-
-
-</section>
-
+    
+  </section>
 
       </div>
 
