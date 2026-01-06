@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | Jussi&#39;s Blog</title>
+<title>Series | Jussi&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - Jussi&#39;s Blog">
+<meta name="description" content="Jussi Haapanen&#39;s personal website">
 <meta name="author" content="Jussi Haapanen">
-<link rel="canonical" href="https://jussihaapanen.com/posts/">
+<link rel="canonical" href="https://jussihaapanen.com/series/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.5fe57f96e8bd4b053150e97725ce1ee64f04ecd17ce2a1eca44fefb55c62ceb3.css" integrity="sha256-X&#43;V/lui9SwUxUOl3Jc4e5k8E7NF84qHspE/vtVxizrM=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://jussihaapanen.com/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://jussihaapanen.com/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="https://jussihaapanen.com/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://jussihaapanen.com/posts/index.xml">
-<link rel="alternate" hreflang="en" href="https://jussihaapanen.com/posts/">
+<link rel="alternate" type="application/rss+xml" href="https://jussihaapanen.com/series/index.xml">
+<link rel="alternate" hreflang="en" href="https://jussihaapanen.com/series/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,33 +56,18 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
+</noscript><meta property="og:title" content="Series" />
 <meta property="og:description" content="Jussi Haapanen&#39;s personal website" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://jussihaapanen.com/posts/" />
+<meta property="og:url" content="https://jussihaapanen.com/series/" />
 <meta property="og:image" content="https://jussihaapanen.com/images/avatar.jpg" />
 
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://jussihaapanen.com/images/avatar.jpg" />
-<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:title" content="Series"/>
 <meta name="twitter:description" content="Jussi Haapanen&#39;s personal website"/>
 
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://jussihaapanen.com/posts/"
-    }
-  ]
-}
-</script>
 </head>
 
 <body class="list" id="top">
@@ -127,7 +112,7 @@
         <ul id="menu">
             <li>
                 <a href="https://jussihaapanen.com/posts/" title="Posts">
-                    <span class="active">Posts</span>
+                    <span>Posts</span>
                 </a>
             </li>
             <li>
@@ -138,75 +123,13 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://jussihaapanen.com/">Home</a></div>
-  <h1>
-    Posts
-    <a href="/posts/index.xml" title="RSS" aria-label="RSS">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" height="23">
-        <path d="M4 11a9 9 0 0 1 9 9" />
-        <path d="M4 4a16 16 0 0 1 16 16" />
-        <circle cx="5" cy="19" r="1" />
-      </svg>
-    </a>
-  </h1>
+<main class="main">
+<header class="page-header">
+    <h1>Series</h1>
 </header>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>The problem I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it’s trying to show. It wasn’t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
-Solution Azure Workbook Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-29 20:00:00 +0300 +0300'>November 29, 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Jussi Haapanen</footer>
-  <a class="entry-link" aria-label="post link to Minimal permissions for Azure Workbook, Log Analytics Workspace & Application Insights" href="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">.NET Core plugin dependency injection
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Introduction You might run into a case where you would like to extend the application without updating the application core. Plugins could be one solution for the issue. It’s fairly simple to implement a plugin architecture in .NET Core. Microsoft has documented the process of adding plugin support for your application in Creating an application with plugin support.
-It’s a good quick start to plugin architecture and gets you quite far. However, it does not explain how to add support for dependency injection from host process to the plugin process. Plugins own internal dependencies could be created on plugin initialization and injected to the executing code but I prefer to have the .NET Core dependency injection system handle these dependencies as well. Plugin configuration is a good example of an object I’d prefer to be initialized and injected by the .NET Core DI.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2020-07-07 12:35:16 +0300 EEST'>July 7, 2020</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;Jussi Haapanen</footer>
-  <a class="entry-link" aria-label="post link to .NET Core plugin dependency injection" href="https://jussihaapanen.com/posts/dotnet-core-plugin-dependency-injection/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Piping data to an application in .NET Core
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Earlier today I had a need for a PlantUML API that could generate PlantUML diagrams without having to install the necessary dependencies on my PC. To achieve this I decided to write a small API using ASP.NET Core.
-I was thinking of just calling the PlantUML binary with the input data from a HTTP POST body. There could be some security implications but I was the only user of the system so it didn’t really matter. I was thinking piping the input data should be a very simple thing to do. It sure was in the end but there were a few things that I forgot about when dealing with streams.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2019-06-16 18:12:04 +0300 EEST'>June 16, 2019</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Jussi Haapanen</footer>
-  <a class="entry-link" aria-label="post link to Piping data to an application in .NET Core" href="https://jussihaapanen.com/posts/piping-data-in-dotnet-core/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Dynamic queries using NHibernate with the help of C# expression trees
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>I had to recently figure out a way to query database objects based on user input without knowing beforehand which classes user wants to query. Basically user would input a type and the system would find it’s child types from a database table. The children would then be fetched based on a set of rules (we do not want all items on the table, just the ones linked to the parent).
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2017-02-05 00:00:00 +0300 +0300'>February 5, 2017</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Jussi Haapanen</footer>
-  <a class="entry-link" aria-label="post link to Dynamic queries using NHibernate with the help of C# expression trees" href="https://jussihaapanen.com/posts/dynamic-queries-using-nhibernate/"></a>
-</article>
+<ul class="terms-tags">
+</ul>
     </main>
     
 <footer class="footer">

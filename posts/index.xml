@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Posts on JUSSI HAAPANEN</title>
+    <title>Posts on Jussi&#39;s Blog</title>
     <link>https://jussihaapanen.com/posts/</link>
-    <description>Recent content in Posts on JUSSI HAAPANEN</description>
-    <generator>Hugo</generator>
+    <description>Recent content in Posts on Jussi&#39;s Blog</description>
+    <image>
+      <title>Jussi&#39;s Blog</title>
+      <url>https://jussihaapanen.com/images/avatar.jpg</url>
+      <link>https://jussihaapanen.com/images/avatar.jpg</link>
+    </image>
+    <generator>Hugo -- 0.152.2</generator>
     <language>en</language>
+    <copyright>Jussi Haapanen</copyright>
     <lastBuildDate>Sat, 29 Nov 2025 20:00:00 +0300</lastBuildDate>
     <atom:link href="https://jussihaapanen.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -13,21 +19,33 @@
       <link>https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/</link>
       <pubDate>Sat, 29 Nov 2025 20:00:00 +0300</pubDate>
       <guid>https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/</guid>
-      <description>&lt;h2 id=&#34;the-problem&#34;&gt;The problem&lt;/h2&gt;&#xA;&lt;p&gt;I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it&amp;rsquo;s trying to show. It wasn&amp;rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.&lt;/p&gt;&#xA;&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;&#xA;&lt;h3 id=&#34;azure-workbook&#34;&gt;Azure Workbook&lt;/h3&gt;&#xA;&lt;p&gt;Grant &lt;code&gt;Workbook Reader&lt;/code&gt; (&lt;code&gt;b279062a-9be3-42a0-92ae-8b3cf002ec4d&lt;/code&gt;) scoped to the Workbook to the user / group. This grants view access to the workbook.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;the-problem&#34;&gt;The problem&lt;/h2&gt;
+&lt;p&gt;I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it&amp;rsquo;s trying to show. It wasn&amp;rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;h3 id=&#34;azure-workbook&#34;&gt;Azure Workbook&lt;/h3&gt;
+&lt;p&gt;Grant &lt;code&gt;Workbook Reader&lt;/code&gt; (&lt;code&gt;b279062a-9be3-42a0-92ae-8b3cf002ec4d&lt;/code&gt;) scoped to the Workbook to the user / group. This grants view access to the workbook.&lt;/p&gt;</description>
     </item>
     <item>
       <title>.NET Core plugin dependency injection</title>
       <link>https://jussihaapanen.com/posts/dotnet-core-plugin-dependency-injection/</link>
       <pubDate>Tue, 07 Jul 2020 12:35:16 +0300</pubDate>
       <guid>https://jussihaapanen.com/posts/dotnet-core-plugin-dependency-injection/</guid>
-      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;You might run into a case where you would like to extend the application without updating the application core. Plugins could be one solution for the issue. It&amp;rsquo;s fairly simple to implement a plugin architecture in .NET Core. Microsoft has documented the process of adding plugin support for your application in &lt;a href=&#34;https://docs.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support&#34;&gt;Creating an application with plugin support&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;It&amp;rsquo;s a good quick start to plugin architecture and gets you quite far. However, it does not explain how to add support for dependency injection from host process to the plugin process. Plugins own internal dependencies could be created on plugin initialization and injected to the executing code but I prefer to have the .NET Core dependency injection system handle these dependencies as well. Plugin configuration is a good example of an object I&amp;rsquo;d prefer to be initialized and injected by the .NET Core DI.&lt;/p&gt;</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;You might run into a case where you would like to extend the application without updating the application core. Plugins could be one solution for the issue. It&amp;rsquo;s fairly simple to implement a plugin architecture in .NET Core. Microsoft has documented the process of adding plugin support for your application in &lt;a href=&#34;https://docs.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support&#34;&gt;Creating an application with plugin support&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s a good quick start to plugin architecture and gets you quite far. However, it does not explain how to add support for dependency injection from host process to the plugin process. Plugins own internal dependencies could be created on plugin initialization and injected to the executing code but I prefer to have the .NET Core dependency injection system handle these dependencies as well. Plugin configuration is a good example of an object I&amp;rsquo;d prefer to be initialized and injected by the .NET Core DI.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Piping data to an application in .NET Core</title>
       <link>https://jussihaapanen.com/posts/piping-data-in-dotnet-core/</link>
       <pubDate>Sun, 16 Jun 2019 18:12:04 +0300</pubDate>
       <guid>https://jussihaapanen.com/posts/piping-data-in-dotnet-core/</guid>
-      <description>&lt;p&gt;Earlier today I had a need for a &lt;a href=&#34;http://plantuml.com/&#34;&gt;PlantUML&lt;/a&gt; API that could generate PlantUML&#xA;diagrams without having to install the necessary dependencies on my PC. To achieve this I decided&#xA;to write a small API using ASP.NET Core.&lt;/p&gt;&#xA;&lt;p&gt;I was thinking of just calling the PlantUML binary with the input data from a HTTP POST body. There&#xA;could be some security implications but I was the only user of the system so it didn&amp;rsquo;t really matter.&#xA;I was thinking piping the input data should be a very simple thing to do. It sure was in the end but&#xA;there were a few things that I forgot about when dealing with streams.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Earlier today I had a need for a &lt;a href=&#34;http://plantuml.com/&#34;&gt;PlantUML&lt;/a&gt; API that could generate PlantUML
+diagrams without having to install the necessary dependencies on my PC. To achieve this I decided
+to write a small API using ASP.NET Core.&lt;/p&gt;
+&lt;p&gt;I was thinking of just calling the PlantUML binary with the input data from a HTTP POST body. There
+could be some security implications but I was the only user of the system so it didn&amp;rsquo;t really matter.
+I was thinking piping the input data should be a very simple thing to do. It sure was in the end but
+there were a few things that I forgot about when dealing with streams.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Dynamic queries using NHibernate with the help of C# expression trees</title>

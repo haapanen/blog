@@ -1,290 +1,378 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="auto">
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights | Jussi&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="The problem
+I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it&rsquo;s trying to show. It wasn&rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
+Solution
+Azure Workbook
+Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.">
+<meta name="author" content="Jussi Haapanen">
+<link rel="canonical" href="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5fe57f96e8bd4b053150e97725ce1ee64f04ecd17ce2a1eca44fefb55c62ceb3.css" integrity="sha256-X&#43;V/lui9SwUxUOl3Jc4e5k8E7NF84qHspE/vtVxizrM=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://jussihaapanen.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://jussihaapanen.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://jussihaapanen.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://jussihaapanen.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://jussihaapanen.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
 
-    <meta name="author" content="Jussi Haapanen">
-    <meta name="description" content="Jussi Haapanen&#39;s personal website">
-    <meta name="keywords" content="blog,developer,personal">
-
-    
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Minimal permissions for Azure Workbook, Log Analytics Workspace & Application Insights">
-  <meta name="twitter:description" content="The problem I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it’s trying to show. It wasn’t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
-Solution Azure Workbook Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.">
-
-    <meta property="og:url" content="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
-  <meta property="og:site_name" content="JUSSI HAAPANEN">
-  <meta property="og:title" content="Minimal permissions for Azure Workbook, Log Analytics Workspace & Application Insights">
-  <meta property="og:description" content="The problem I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it’s trying to show. It wasn’t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
-Solution Azure Workbook Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2025-11-29T20:00:00+03:00">
-    <meta property="article:modified_time" content="2025-11-29T20:00:00+03:00">
-
-
-    
-      <base href="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
-    
-    <title>
-  Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights · JUSSI HAAPANEN
-</title>
-
-    
-      <link rel="canonical" href="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/">
-    
-
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css">
-    
-    
-    <script type="text/plain" data-cookiecategory="analytics" async src="https://www.googletagmanager.com/gtag/js?id=UA-41962308-4"></script>
-    <script type="text/plain" data-cookiecategory="analytics">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-41962308-4');
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.js"></script>
-
-    <script>
-      window.addEventListener('load', function () {
-
-          
-          var cc = initCookieConsent();
-
-          
-          cc.run({
-            current_lang: 'en',
-            autoclear_cookies: true,                   
-            page_scripts: true,                        
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-            onFirstAction: function (user_preferences, cookie) {
-              
-            },
-
-            onAccept: function (cookie) {
-              
-            },
-
-            onChange: function (cookie, changed_categories) {
-              
-            },
-
-            languages: {
-              'en': {
-                consent_modal: {
-                  title: 'We use cookies!',
-                  description: 'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button>',
-                  primary_btn: {
-                    text: 'Accept all',
-                    role: 'accept_all'              
-                  },
-                  secondary_btn: {
-                    text: 'Reject all',
-                    role: 'accept_necessary'        
-                  }
-                },
-                settings_modal: {
-                  title: 'Cookie preferences',
-                  save_settings_btn: 'Save settings',
-                  accept_all_btn: 'Accept all',
-                  reject_all_btn: 'Reject all',
-                  close_btn_label: 'Close',
-                  cookie_table_headers: [
-                    { col1: 'Name' },
-                    { col2: 'Domain' },
-                    { col3: 'Expiration' },
-                    { col4: 'Description' }
-                  ],
-                  blocks: [
-                    {
-                      title: 'Performance and Analytics cookies',
-                      description: 'These cookies allow the website to remember the choices you have made in the past',
-                      toggle: {
-                        value: 'analytics',     
-                        enabled: false,
-                        readonly: false
-                      },
-                      cookie_table: [             
-                        {
-                          col1: '^_ga',       
-                          col2: 'google.com',
-                          col3: '2 years',
-                          col4: 'description ...',
-                          is_regex: true
-                        },
-                        {
-                          col1: '_gid',
-                          col2: 'google.com',
-                          col3: '1 day',
-                          col4: 'description ...',
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
             }
-          });
-        });
-  </script>
 
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights" />
+<meta property="og:description" content="The problem
+I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it&rsquo;s trying to show. It wasn&rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
+Solution
+Azure Workbook
+Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/" />
+<meta property="og:image" content="https://jussihaapanen.com/images/avatar.jpg" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-11-29T20:00:00+03:00" />
+<meta property="article:modified_time" content="2025-11-29T20:00:00+03:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://jussihaapanen.com/images/avatar.jpg" />
+<meta name="twitter:title" content="Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights"/>
+<meta name="twitter:description" content="The problem
+I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it&rsquo;s trying to show. It wasn&rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.
+Solution
+Azure Workbook
+Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://jussihaapanen.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Minimal permissions for Azure Workbook, Log Analytics Workspace \u0026 Application Insights",
+      "item": "https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Minimal permissions for Azure Workbook, Log Analytics Workspace \u0026 Application Insights",
+  "name": "Minimal permissions for Azure Workbook, Log Analytics Workspace \u0026 Application Insights",
+  "description": "The problem I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it\u0026rsquo;s trying to show. It wasn\u0026rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.\nSolution Azure Workbook Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.\n",
+  "keywords": [
     
-      
-      
-      <link rel="stylesheet" href="/css/coder.min.28d751104f30c16da1aa1bb04015cbe662cacfe0d1b01af4f2240ad58580069c.css" integrity="sha256-KNdREE8wwW2hqhuwQBXL5mLKz&#43;DRsBr08iQK1YWABpw=" crossorigin="anonymous" media="screen" />
-    
+  ],
+  "articleBody": "The problem I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it’s trying to show. It wasn’t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.\nSolution Azure Workbook Grant Workbook Reader (b279062a-9be3-42a0-92ae-8b3cf002ec4d) scoped to the Workbook to the user / group. This grants view access to the workbook.\nApplication Insights Grant Monitoring Reader (43d0d8ad-25c7-4714-9337-8ba259a9fe05) scoped to the Application Insights to the user / group. This grants reader access to Application Insights.\nLog Analytics Workspace This depends on how Log Analytics is used. Log Analytics supports both access to all logs within the workspace or access to logs scoped to the resource user has read access to.\nIf you wish to grant access to all logs within the workspace, grant Log Analytics Data Reader (3b03c2da-16b3-4a49-8834-0f8130efdd3b). This grants access to query \u0026 search all logs within the workspace.\nIf you wish to grant access to logs from resources user has access to, you don’t need to grant anything at the log analytics workspace level. To grant access to specific resource’s logs, grant Monitoring Reader (43d0d8ad-25c7-4714-9337-8ba259a9fe05) access to the resource and ensure the log analytics workspace access control mode is set to Use resource or workspace permissions.\n",
+  "wordCount" : "238",
+  "inLanguage": "en",
+  "image": "https://jussihaapanen.com/images/avatar.jpg","datePublished": "2025-11-29T20:00:00+03:00",
+  "dateModified": "2025-11-29T20:00:00+03:00",
+  "author":{
+    "@type": "Person",
+    "name": "Jussi Haapanen"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jussihaapanen.com/posts/minimal-permissions-for-azure-workbook/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jussi's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://jussihaapanen.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
 
-    
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
 
-    
+</script>
 
-    
-      <link rel="stylesheet" href="/css/custom.css">
-    
-
-    <link rel="icon" type="image/png" href="https://jussihaapanen.com/img/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://jussihaapanen.com/img/favicon-16x16.png" sizes="16x16">
-
-    <meta name="generator" content="Hugo 0.152.2">
-  </head>
-
-  <body class=" ">
-    <main class="wrapper">
-      <nav class="navigation">
-  <section class="container">
-    <a class="navigation-title" href="https://jussihaapanen.com/">
-      JUSSI HAAPANEN
-    </a>
-    <input type="checkbox" id="menu-toggle" />
-    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
-    <ul class="navigation-list">
-      
-        
-          <li class="navigation-item">
-            <a class="navigation-link" href="/posts/">Blog</a>
-          </li>
-        
-      
-      
-    </ul>
-  </section>
-</nav>
-
-
-      <div class="content">
-        
-  <section class="container post">
-    <article>
-      <header>
-        <div class="post-title">
-          <h1 class="title">Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights</h1>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://jussihaapanen.com/" accesskey="h" title="Jussi&#39;s Blog (Alt + H)">Jussi&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <div class="post-meta">
-          <div class="date">
-            <span class="posted-on">
-              <i class="fas fa-calendar"></i>
-              <time datetime='2025-11-29T20:00:00&#43;03:00'>
-                November 29, 2025
-              </time>
-            </span>
-            <span class="reading-time">
-              <i class="fas fa-clock"></i>
-              2 minutes read
-            </span>
-          </div>
-          
-          
-        </div>
-      </header>
+        <ul id="menu">
+            <li>
+                <a href="https://jussihaapanen.com/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jussihaapanen.com/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
 
-      <div>
-        <h2 id="the-problem">The problem</h2>
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://jussihaapanen.com/">Home</a>&nbsp;»&nbsp;<a href="https://jussihaapanen.com/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Minimal permissions for Azure Workbook, Log Analytics Workspace &amp; Application Insights
+    </h1>
+    <div class="post-meta"><span title='2025-11-29 20:00:00 +0300 +0300'>November 29, 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Jussi Haapanen
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#the-problem" aria-label="The problem">The problem</a></li>
+                <li>
+                    <a href="#solution" aria-label="Solution">Solution</a><ul>
+                        
+                <li>
+                    <a href="#azure-workbook" aria-label="Azure Workbook">Azure Workbook</a></li>
+                <li>
+                    <a href="#application-insights" aria-label="Application Insights">Application Insights</a></li>
+                <li>
+                    <a href="#log-analytics-workspace" aria-label="Log Analytics Workspace">Log Analytics Workspace</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="the-problem">The problem<a hidden class="anchor" aria-hidden="true" href="#the-problem">#</a></h2>
 <p>I recently wanted to test Azure Workbook as a tool for monitoring dashboards. One challenge that I ran into is Workbook uses Azure permissions to grant access to both the Workbook itself and any logs / metrics it&rsquo;s trying to show. It wasn&rsquo;t exactly obvious what built-in Azure roles are needed to provide access to a Workbook that uses Application Insights metrics/logs stored in Log Analytics Workspace.</p>
-<h2 id="solution">Solution</h2>
-<h3 id="azure-workbook">Azure Workbook</h3>
+<h2 id="solution">Solution<a hidden class="anchor" aria-hidden="true" href="#solution">#</a></h2>
+<h3 id="azure-workbook">Azure Workbook<a hidden class="anchor" aria-hidden="true" href="#azure-workbook">#</a></h3>
 <p>Grant <code>Workbook Reader</code> (<code>b279062a-9be3-42a0-92ae-8b3cf002ec4d</code>) scoped to the Workbook to the user / group. This grants view access to the workbook.</p>
-<h3 id="application-insights">Application Insights</h3>
+<h3 id="application-insights">Application Insights<a hidden class="anchor" aria-hidden="true" href="#application-insights">#</a></h3>
 <p>Grant <code>Monitoring Reader</code> (<code>43d0d8ad-25c7-4714-9337-8ba259a9fe05</code>) scoped to the Application Insights to the user / group. This grants reader access to Application Insights.</p>
-<h3 id="log-analytics-workspace">Log Analytics Workspace</h3>
+<h3 id="log-analytics-workspace">Log Analytics Workspace<a hidden class="anchor" aria-hidden="true" href="#log-analytics-workspace">#</a></h3>
 <p>This depends on how Log Analytics is used. Log Analytics supports both access to all logs within the workspace or access to logs scoped to the resource user has read access to.</p>
 <p>If you wish to grant access to all logs within the workspace, grant <code>Log Analytics Data Reader</code> (<code>3b03c2da-16b3-4a49-8834-0f8130efdd3b</code>). This grants access to query &amp; search all logs within the workspace.</p>
 <p>If you wish to grant access to logs from resources user has access to, you don&rsquo;t need to grant anything at the log analytics workspace level. To grant access to specific resource&rsquo;s logs, grant <code>Monitoring Reader</code> (<code>43d0d8ad-25c7-4714-9337-8ba259a9fe05</code>) access to the resource and ensure the log analytics workspace access control mode is set to <code>Use resource or workspace permissions</code>.</p>
 
-      </div>
 
-      <footer>
-        
+  </div>
 
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://jussihaapanen.com/posts/dotnet-core-plugin-dependency-injection/">
+    <span class="title">Next »</span>
+    <br>
+    <span>.NET Core plugin dependency injection</span>
+  </a>
+</nav>
 
-        <div id="disqus_thread"></div>
-<script>
-    window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "haapanen" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-      </footer>
-    </article>
-
-    
-  </section>
-
-      </div>
-
-      <footer class="footer">
-  <section class="container">
-    
-    
-    
-      
-      Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
-    
-    
-  </section>
-</footer>
-
+  </footer>
+</article>
     </main>
-
     
+<footer class="footer">
+        <span>© Jussi Haapanen</span> · 
 
-  </body>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
 
 </html>

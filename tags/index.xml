@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on JUSSI HAAPANEN</title>
+    <title>Tags on Jussi&#39;s Blog</title>
     <link>https://jussihaapanen.com/tags/</link>
-    <description>Recent content in Tags on JUSSI HAAPANEN</description>
-    <generator>Hugo</generator>
+    <description>Recent content in Tags on Jussi&#39;s Blog</description>
+    <image>
+      <title>Jussi&#39;s Blog</title>
+      <url>https://jussihaapanen.com/images/avatar.jpg</url>
+      <link>https://jussihaapanen.com/images/avatar.jpg</link>
+    </image>
+    <generator>Hugo -- 0.152.2</generator>
     <language>en</language>
+    <copyright>Jussi Haapanen</copyright>
     <atom:link href="https://jussihaapanen.com/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
